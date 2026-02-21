@@ -1,0 +1,479 @@
+/* Columns */
+.kanban-column {
+    background: var(--col-bg);
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    min-height: 400px;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    transition: all var(--transition-speed) var(--easing);
+    position: relative;
+    overflow: hidden;
+}
+
+.kanban-column::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+
+.kanban-column.drag-over {
+    border-color: var(--accent-todo);
+    background: var(--card-bg);
+    transform: scale(1.01);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid transparent;
+    z-index: 1;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Clear Button */
+.btn-clear {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.btn-clear:hover,
+.btn-clear:focus-visible {
+    background: rgba(239, 68, 68, 0.15);
+    /* light red tint */
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+/* Column Accents */
+#col-todo .column-header {
+    border-bottom-color: var(--accent-todo);
+}
+
+#col-doing .column-header {
+    border-bottom-color: var(--accent-doing);
+}
+
+#col-done .column-header {
+    border-bottom-color: var(--accent-done);
+}
+
+.column-title {
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+}
+
+.task-count {
+    background: var(--border-color);
+    color: var(--text-color);
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 700;
+    backdrop-filter: var(--glass-blur);
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 50px;
+    /* Drop target */
+    flex: 1;
+    z-index: 1;
+}
+
+/* Add Task Button */
+.add-task-btn {
+    width: 100%;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-bounce);
+    z-index: 1;
+}
+
+.add-task-btn:hover,
+.add-task-btn:focus-visible {
+    background: var(--card-bg);
+    border-style: solid;
+    color: var(--text-color);
+    border-color: var(--text-muted);
+    transform: translateY(-2px);
+    box-shadow: var(--glass-shadow);
+}
+
+/* Cards */
+.kanban-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    cursor: grab;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all var(--transition-speed) var(--easing);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.kanban-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--card-border-hover);
+}
+
+.kanban-card:active {
+    cursor: grabbing;
+    transform: scale(0.98);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card-enter {
+    animation: fadeInUp 0.5s var(--transition-bounce) forwards;
+    opacity: 0;
+}
+
+/* Stagger calculation using simple sequential delays */
+.card-enter:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.card-enter:nth-child(2) {
+    animation-delay: 0.10s;
+}
+
+.card-enter:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.card-enter:nth-child(4) {
+    animation-delay: 0.20s;
+}
+
+.card-enter:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.card-enter:nth-child(6) {
+    animation-delay: 0.30s;
+}
+
+.card-enter:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.card-enter:nth-child(n+8) {
+    animation-delay: 0.40s;
+}
+
+.kanban-card.dragging {
+    opacity: 0.8;
+    transform: scale(1.05) rotate(3deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-color: var(--accent-todo);
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-color);
+    word-wrap: break-word;
+    line-height: 1.3;
+}
+
+.card-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.2rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--card-border);
+}
+
+.priority-badge {
+    font-size: 0.7(rem);
+    text-transform: uppercase;
+    font-weight: 800;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    color: #fff;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.priority-low {
+    background-color: var(--priority-low);
+}
+
+.priority-medium {
+    background-color: var(--priority-medium);
+}
+
+.priority-high {
+    background-color: var(--priority-high);
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.card-actions button {
+    padding: 0.4rem;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-muted);
+    opacity: 0;
+    /* Hidden until hover */
+}
+
+.kanban-card:hover .card-actions button,
+.card-actions button:focus-visible {
+    opacity: 1;
+}
+
+.card-actions button:hover,
+.card-actions button:focus-visible {
+    background: var(--border-color);
+    color: var(--text-color);
+    transform: scale(1.1);
+}
+
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-speed) var(--easing);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: scale(0.95) translateY(20px);
+    transition: all var(--transition-speed) var(--transition-bounce);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1) translateY(0);
+}
+
+.modal h2 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    font-family: var(--font-family);
+    padding: 0.875rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: rgba(var(--bg-color), 0.5);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--accent-todo);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    background: var(--card-bg);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-cancel {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel:hover,
+.btn-cancel:focus-visible {
+    background: var(--border-color);
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-todo), #2563EB);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Empty State */
+.empty-placeholder {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.95rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    transition: border-color 0.3s ease;
+}
+
+/* Toast Notifications */
+#toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--toast-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.4s var(--transition-bounce);
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-icon {
+    font-size: 1.25rem;
+}

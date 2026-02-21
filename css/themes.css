@@ -1,0 +1,83 @@
+:root {
+  /* Common variables */
+  --font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", "San Francisco", "Helvetica Neue", sans-serif;
+  --transition-speed: 0.4s;
+  --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Light Theme */
+  --bg-color: #F9FAFB;
+  --text-color: #111827;
+  --text-muted: #6B7280;
+
+  --card-bg: rgba(255, 255, 255, 0.65);
+  --card-border: rgba(255, 255, 255, 0.6);
+  --card-border-hover: rgba(255, 255, 255, 0.9);
+
+  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+  --glass-blur: blur(16px);
+  --glass-saturation: saturate(180%);
+
+  --col-bg: rgba(243, 244, 246, 0.4);
+  --border-color: rgba(229, 231, 235, 0.7);
+
+  --accent-todo: #3B82F6;
+  /* Blue */
+  --accent-doing: #F59E0B;
+  /* Orange */
+  --accent-done: #10B981;
+  /* Green */
+
+  /* Priority Colors */
+  --priority-low: #10B981;
+  --priority-medium: #F59E0B;
+  --priority-high: #EF4444;
+
+  /* Ambient Background Gradients */
+  --ambient-1: #e0f2fe;
+  --ambient-2: #fef3c7;
+  --ambient-3: #d1fae5;
+
+  /* Toast */
+  --toast-bg: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --text-color: #F8FAFC;
+  --text-muted: #94A3B8;
+
+  --card-bg: rgba(30, 41, 59, 0.6);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-border-hover: rgba(255, 255, 255, 0.25);
+
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-blur: blur(16px);
+  --glass-saturation: saturate(200%);
+
+  --col-bg: rgba(15, 23, 42, 0.45);
+  --border-color: rgba(51, 65, 85, 0.6);
+
+  --accent-todo: #60A5FA;
+  /* Neon-muted Blue */
+  --accent-doing: #FBBF24;
+  /* Neon-muted Orange */
+  --accent-done: #34D399;
+  /* Neon-muted Green */
+
+  /* Priority Colors */
+  --priority-low: #34D399;
+  --priority-medium: #FBBF24;
+  --priority-high: #F87171;
+
+  /* Ambient Background Gradients - Darker & richer */
+  --ambient-1: #1e3a8a;
+  /* Deep Blue */
+  --ambient-2: #7c2d12;
+  /* Deep Orange/Rust */
+  --ambient-3: #064e3b;
+  /* Deep Emerald */
+
+  /* Toast */
+  --toast-bg: rgba(30, 41, 59, 0.95);
+}

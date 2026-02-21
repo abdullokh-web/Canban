@@ -1,0 +1,11 @@
+{
+  "settings": {
+    "theme": "dark",
+    "lang": "en"
+  },
+  "columns": {
+    "todo": [],
+    "doing": [],
+    "done": []
+  }
+}

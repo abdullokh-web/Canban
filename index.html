@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description"
+        content="A premium, ultra-modern Local Kanban board running entirely in the browser using Vanilla JS.">
+    <meta name="author" content="Abdullokh">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph/SEO -->
+    <meta property="og:title" content="Ultra-Modern Local Kanban">
+    <meta property="og:description"
+        content="Manage your tasks locally with a stunning glassmorphism UI. Zero backend required.">
+    <meta property="og:type" content="website">
+
+    <title>Local Kanban</title>
+
+    <!-- Dynamic Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+
+    <!-- Ambient Animated Background for Glassmorphism -->
+    <div class="ambient-bg shape-1"></div>
+    <div class="ambient-bg shape-2"></div>
+    <div class="ambient-bg shape-3"></div>
+
+    <header role="banner">
+        <h1 id="ui-app-title">Local Kanban</h1>
+        <div class="controls" aria-label="Application Controls">
+            <input type="search" id="search-input" class="search-input" placeholder="Search tasks..."
+                aria-label="Search tasks">
+            <select id="lang-selector" aria-label="Select Language">
+                <option value="en" selected>English</option>
+                <option value="ru">Русский</option>
+                <option value="uz">O'zbekcha</option>
+            </select>
+            <button id="theme-toggle" class="control-btn" aria-label="Toggle Theme" title="Toggle Theme">🌓</button>
+        </div>
+    </header>
+
+    <main id="board" role="main" aria-label="Kanban Board">
+        <!-- Todo Column -->
+        <section class="kanban-column" id="col-todo" data-status="todo" role="region" aria-labelledby="ui-todo">
+            <div class="column-header">
+                <h2 class="column-title" id="ui-todo">To Do</h2>
+                <span class="task-count" id="count-todo" aria-label="Task Count">0</span>
+            </div>
+            <div class="task-list" id="list-todo" aria-live="polite">
+                <!-- Tasks injected here -->
+            </div>
+            <button class="add-task-btn" id="btn-add-todo" data-status="todo" aria-label="Add new To Do task">+ Add
+                Task</button>
+        </section>
+
+        <!-- Doing Column -->
+        <section class="kanban-column" id="col-doing" data-status="doing" role="region" aria-labelledby="ui-doing">
+            <div class="column-header">
+                <h2 class="column-title" id="ui-doing">In Progress</h2>
+                <span class="task-count" id="count-doing" aria-label="Task Count">0</span>
+            </div>
+            <div class="task-list" id="list-doing" aria-live="polite">
+                <!-- Tasks injected here -->
+            </div>
+            <button class="add-task-btn" id="btn-add-doing" data-status="doing" aria-label="Add new In Progress task">+
+                Add Task</button>
+        </section>
+
+        <!-- Done Column -->
+        <section class="kanban-column" id="col-done" data-status="done" role="region" aria-labelledby="ui-done">
+            <div class="column-header">
+                <h2 class="column-title" id="ui-done">Done</h2>
+                <div class="header-actions">
+                    <span class="task-count" id="count-done" aria-label="Task Count">0</span>
+                    <button id="btn-clear-done" class="btn-clear" title="Clear Done Tasks"
+                        aria-label="Clear Done Tasks">🧹</button>
+                </div>
+            </div>
+            <div class="task-list" id="list-done" aria-live="polite">
+                <!-- Tasks injected here -->
+            </div>
+            <button class="add-task-btn" id="btn-add-done" data-status="done" aria-label="Add new Done task">+ Add
+                Task</button>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <span id="ui-creator">Creator</span>: <a href="https://abdullokh.bio.link/" target="_blank"
+            rel="noopener noreferrer">Abdullokh</a>
+    </footer>
+
+    <!-- Task Modal -->
+    <div class="modal-overlay" id="task-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+        aria-hidden="true">
+        <div class="modal">
+            <h2 id="modal-title">Task Details</h2>
+            <form id="task-form">
+                <input type="hidden" id="task-id">
+                <input type="hidden" id="task-status">
+
+                <div class="form-group">
+                    <label for="task-title-input" class="visually-hidden">Task Title</label>
+                    <input type="text" id="task-title-input" placeholder="Task Title" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="task-desc-input" class="visually-hidden">Task Description</label>
+                    <textarea id="task-desc-input" placeholder="Task Description (optional)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task-priority-input" class="visually-hidden">Task Priority</label>
+                    <select id="task-priority-input">
+                        <option value="low" id="ui-priority-low">Low Priority</option>
+                        <option value="medium" id="ui-priority-medium" selected>Medium Priority</option>
+                        <option value="high" id="ui-priority-high">High Priority</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel" class="btn-cancel">Cancel</button>
+                    <button type="submit" id="btn-save" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- JS -->
+    <script src="js/i18n.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+
+</html>
