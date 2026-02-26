@@ -10,7 +10,7 @@
 A hyper-optimized, visually stunning Kanban board running entirely within your browser. 
 No backend. No database. Pure speed and privacy.
 
-![Dark Mode Kanban Preview](file:///C:/Users/TechnoBola/.gemini/antigravity/brain/14bf2a5d-de7a-4785-8a1a-5b8e684df0a7/kanban_preview_1771703999748.png)
+![Dark Mode Kanban Preview](assets/image/demo.png)
 </div>
 
 ---
